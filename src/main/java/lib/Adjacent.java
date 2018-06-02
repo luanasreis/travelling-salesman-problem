@@ -6,7 +6,7 @@ public class Adjacent {
     private final int distance;
 
     // recebe no final da aresta e peso da aresta
-    public Adjacente(Vertice city, int distance) {
+    public Adjacente(City city, int distance) {
         this.city = city; //recebe o vertice
         this.distance = distance;// recebe o peso da aresta
     }
