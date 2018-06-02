@@ -8,6 +8,7 @@ public class City{
     private boolean visited;
 
     public City(int CityName, double coordX, double coordY) {
+        private ArrayList<Adjacent> adjacent;
         this.CityName = CityName;
         this.coordinatesX = coordX;
         this.coordinatesY = coordY;
@@ -19,6 +20,17 @@ public class City{
             this(CityName, coordX,coordY);
         }
 
+        public void setAdjacent(ArrayList<Adjacent> adj) {
+            this.adjacent = adj;
+        }
+
+        public Adjacent getAdjacent(int adj) {
+            return this.adjacent.get(adj);
+        }
+
+        public int getGrau() { //quant de vertices adj tem uma cidade (quantas cidades vizinhas)
+            return adjacent.size();
+        }
 
         public int getCityName() {
             return CityName;
