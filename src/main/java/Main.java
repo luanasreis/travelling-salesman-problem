@@ -16,5 +16,6 @@ public class Main {
         AdjacentReader adjacents = new AdjacentReader(names);
         ArrayList<City> cities = adjacents.getCities();
         System.out.println(cities.get(cities.size() -1).getAdjacents());
+        Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(false);
     }
 }
