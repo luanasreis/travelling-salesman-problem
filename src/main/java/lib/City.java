@@ -1,72 +1,70 @@
 package lib;
 
-public class City{
-    private final int CityName;
-    double coordinatesX;
-    double coordinatesY;
+import java.util.ArrayList;
+
+public class City {
+    private String CityName;
+    private double weight;
     private City dad;
     private boolean visited;
+    private ArrayList<City> adjacent;
 
-    public City(int CityName, double coordX, double coordY) {
-        private ArrayList<Adjacent> adjacent;
+    public City(String CityName, double weight) {
         this.CityName = CityName;
-        this.coordinatesX = coordX;
-        this.coordinatesY = coordY;
+        this.weight = weight;
         this.dad = null;
         this.visited = false;
+        this.adjacent = new ArrayList<City>();
     }
 
-        public City(int CityName, double coordX, double coordY) {
-            this(CityName, coordX,coordY);
-        }
+//    public CityCoordinates(int CityName, double coordX, double coordY) {
+//        this(CityName, coordX,coordY);
+//    }
 
-        public void setAdjacent(ArrayList<Adjacent> adj) {
-            this.adjacent = adj;
-        }
+    public void setAdjacent(ArrayList<City> adj) {
+        this.adjacent = adj;
+    }
 
-        public Adjacent getAdjacent(int adj) {
-            return this.adjacent.get(adj);
-        }
+    public ArrayList<City> getAdjacents() {
+        return this.adjacent;
+    }
 
-        public int getGrau() { //quant de vertices adj tem uma cidade (quantas cidades vizinhas)
-            return adjacent.size();
-        }
+    public City getAdjacent(int adj) {
+        return this.adjacent.get(adj);
+    }
 
-        public int getCityName() {
-            return CityName;
-        }
+    public void addAdjacent(City city) {
+        this.adjacent.add(city);
+    }
 
-        public int getCoordinateX() {
-            return coordinatesX;
-        }
+    public int getGrau() { //quant de vertices adj tem uma cidade (quantas cidades vizinhas)
+        return adjacent.size();
+    }
 
-        public int getCoordinateY() {
-            return coordinatesY;
-        }
+    public String getCityName() {
+        return this.CityName;
+    }
 
-        public void setCoordinatesX(int coordX) {
-            this.coordinatesX = coordX;
-        }
+    public double getWeight() {
+        return this.weight;
+    }
 
-        public void setCoordinatesY(int coordY) {
-            this.coordinatesY = coordY;
-        }
+    public City getDad() {
+        return this.dad;
+    }
 
-        public City getDad() {
-            return dad;
-        }
+    public void setDad(City dad) {
+        this.dad = dad;
+    }
 
-        public void setDad(City dad) {
-            this.dad = dad;
-        }
+    public boolean isVisited() {
+        return visited;
+    }
 
-        public boolean isVisited() {
-            return visited;
-        }
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
-        public void setVisited(boolean visited) {
-            this.visited = visited;
-        }
 
 
 }

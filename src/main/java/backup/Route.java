@@ -4,9 +4,9 @@
 //import java.util.Arrays;
 //
 //public class Route {
-//	private ArrayList<City> cities = new ArrayList<City>();
-//	public Route(ArrayList<City> cities) { this.cities.addAll(cities); }
-//	public ArrayList<City> getCities() { return cities; }
+//	private ArrayList<CityCoordinates> names = new ArrayList<CityCoordinates>();
+//	public Route(ArrayList<CityCoordinates> names) { this.names.addAll(names); }
+//	public ArrayList<CityCoordinates> getCities() { return names; }
 //	public int calculateTotalDistance() {
 //		int citiesSize = this.getCities().size();
 //		return (int) (this.getCities().stream().mapToDouble(x -> {
@@ -16,7 +16,7 @@
 //			return returnValue;
 //		}).sum() + this.getCities().get(citiesSize - 1).measureDistance(this.getCities().get(0)));
 //	}
-//	public String toString() { return Arrays.toString(cities.toArray()); }
+//	public String toString() { return Arrays.toString(names.toArray()); }
 //
 //}
 //
