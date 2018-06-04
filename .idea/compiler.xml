@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="travelling-salesman-problem" />
+        <module name="tsp" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tsp" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

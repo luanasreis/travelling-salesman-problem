@@ -17,5 +17,9 @@ public class Main {
         ArrayList<City> cities = adjacents.getCities();
         System.out.println(cities.get(cities.size() -1).getAdjacents());
         Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(false);
+
+        TravelingSalesman travelingSalesman = new TravelingSalesman(adjacentMatrix);
+
+        System.out.println(travelingSalesman.toString());
     }
 }
