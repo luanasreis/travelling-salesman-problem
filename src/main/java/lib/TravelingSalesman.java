@@ -11,7 +11,7 @@ public class TravelingSalesman {
     public TravelingSalesman(Double[][] adjacentMatrix) {
         this.adjacentMatrix = adjacentMatrix;
         this.quantCities = adjacentMatrix.length;
-        this.route = new Integer[this.quantCities];
+        this.route = new Integer[this.quantCities + 1];
         this.buildRoute();
     }
 
@@ -48,6 +48,8 @@ public class TravelingSalesman {
         for(int count = 0; count < this.route.length -1; count++) {
             result += this.route[count] + " -> ";
         }
+        result = result.substring(0, result.length() - 4);
+
         return result;
     }
 }
