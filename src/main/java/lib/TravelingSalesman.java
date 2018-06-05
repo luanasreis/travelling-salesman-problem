@@ -39,7 +39,6 @@ public class TravelingSalesman {
         }
 
         this.route[this.quantCities -1] = 0;
-
     }
 
     @Override
@@ -51,5 +50,13 @@ public class TravelingSalesman {
         result = result.substring(0, result.length() - 4);
 
         return result;
+    }
+
+    public String toStringWeigth() {
+        Double sumCount= 0.0;
+        for (int count = 0; count < this.quantCities -1; count ++) {
+            sumCount += this.adjacentMatrix[this.route[count]][this.route[count + 1]];
+        }
+        return sumCount.toString();
     }
 }

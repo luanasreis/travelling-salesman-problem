@@ -18,8 +18,9 @@ public class Main {
         System.out.println(cities.get(cities.size() -1).getAdjacents());
         Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(false);
 
-        TravelingSalesman travelingSalesman = new TravelingSalesman(adjacentMatrix);
+        TravelingSalesman firstSolution = new TravelingSalesman(adjacentMatrix);
 
-        System.out.println(travelingSalesman.toString());
+        System.out.println("Caminho: " + firstSolution.toString());
+        System.out.println("Peso: " + firstSolution.toStringWeigth());
     }
 }
