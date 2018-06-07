@@ -16,11 +16,11 @@ public class Main {
         AdjacentReader adjacents = new AdjacentReader(names);
         ArrayList<City> cities = adjacents.getCities();
         System.out.println(cities.get(cities.size() -1).getAdjacents());
-        Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(false);
+        Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(true);
 
-        TravelingSalesman firstSolution = new TravelingSalesman(adjacentMatrix);
-
-        System.out.println("Caminho: " + firstSolution.toString());
-        System.out.println("Peso: " + firstSolution.toStringWeigth());
+        TravelingSalesman travelingSalesman = new TravelingSalesman(adjacentMatrix);
+        travelingSalesman.buildWeight(travelingSalesman.getRoute(), true, true);
+        Integer[] secondSolution = travelingSalesman.buildSwapWay();
+        travelingSalesman.buildWeight(secondSolution, true, true);
     }
 }

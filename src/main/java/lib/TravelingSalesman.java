@@ -41,22 +41,62 @@ public class TravelingSalesman {
         this.route[this.quantCities -1] = 0;
     }
 
-    @Override
-    public String toString() {
-        String result = "";
-        for(int count = 0; count < this.route.length -1; count++) {
-            result += this.route[count] + " -> ";
-        }
-        result = result.substring(0, result.length() - 4);
+    public Integer[] buildSwapWay() {
+        Integer[] tmpSolution = this.getRoute();
+        double baseWeight = this.buildWeight(this.getRoute(), false, false);
+        Integer[] bestSolution = new Integer[0];
+        for(int position = 1; position < this.quantCities; position++) {
+            for(int neighbor = position + 1; neighbor < this.quantCities - 1; neighbor++) {
+                int tmpWay = tmpSolution[position];
+                tmpSolution[position] = tmpSolution[neighbor];
+                tmpSolution[neighbor] = tmpWay;
+                double tmpWeight = this.buildWeight(tmpSolution, false, false);
 
-        return result;
+                if(tmpWeight < baseWeight) {
+                    baseWeight = tmpWeight;
+                    bestSolution = tmpSolution;
+                }
+            }
+        }
+
+        if (bestSolution.length > 0) {
+            return bestSolution;
+        }
+        return this.getRoute();
     }
 
-    public String toStringWeigth() {
+    public void printRoute(Integer route[]) {
+        StringBuilder result = new StringBuilder();
+        for(int count = 0; count < route.length -1; count++) {
+            result.append(route[count]).append(" -> ");
+        }
+        result = new StringBuilder(result.substring(0, result.length() - 4));
+
+        System.out.println(result);
+    }
+
+    public Double buildWeight(Integer[] route, boolean printDistance, boolean printWay) {
         Double sumCount= 0.0;
         for (int count = 0; count < this.quantCities -1; count ++) {
-            sumCount += this.adjacentMatrix[this.route[count]][this.route[count + 1]];
+            sumCount += this.adjacentMatrix[route[count]][route[count + 1]];
         }
-        return sumCount.toString();
+
+        if (printDistance) {
+            System.out.println("Distântia total: "  + sumCount);
+        }
+
+        if(printWay) {
+            this.printRoute(route);
+        }
+
+        return sumCount;
     }
+
+    public Double buildWeight(boolean printDistance) {
+        return this.buildWeight(this.getRoute(), printDistance, false);
+    }
+
+    public Integer[] getRoute(){ return this.route; }
+
+
 }

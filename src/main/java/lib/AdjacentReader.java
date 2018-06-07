@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class AdjacentReader {
     private ArrayList<City> cities;
-    private final String dataFilesPath = "./src/main/java/data/adjacent/adjacent15.txt";
+    private final String dataFilesPath = "./src/main/java/data/adjacent/adjacent9.txt";
     private ArrayList<ArrayList<Double>> Matrix;
 
     public AdjacentReader(CitiesNameReader names) {
