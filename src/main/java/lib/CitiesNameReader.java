@@ -19,7 +19,6 @@ public class CitiesNameReader {
             inputStream = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(inputStream);
             bufferedReader.lines().forEach( line -> {
-//                System.out.println(line);
                 names.add(line);
             });
         } catch (FileNotFoundException e) {

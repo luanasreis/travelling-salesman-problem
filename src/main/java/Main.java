@@ -15,8 +15,7 @@ public class Main {
         //Vai ler o arquivo de adjacentes encontrado em data/adjacents
         AdjacentReader adjacents = new AdjacentReader(names);
         ArrayList<City> cities = adjacents.getCities();
-        System.out.println(cities.get(cities.size() -1).getAdjacents());
-        Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(true);
+        Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(false);
 
         TravelingSalesman travelingSalesman = new TravelingSalesman(adjacentMatrix);
         travelingSalesman.buildWeight(travelingSalesman.getRoute(), true, true);

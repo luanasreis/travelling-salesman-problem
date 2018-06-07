@@ -18,7 +18,7 @@ public class TravelingSalesman {
     public void buildRoute() {
         Boolean[] visited = new Boolean[this.quantCities];
 
-        for(int i = 0; i < this.quantCities -1; i++) {
+        for(int i = 0; i < this.quantCities; i++) {
             visited[i] = false;
         }
         this.route[0] = 0;
@@ -27,7 +27,7 @@ public class TravelingSalesman {
         for(int i = 0; i < this.quantCities -1; i++) {
             double distance = Double.MAX_VALUE;
             int neighborSelected = 0;
-            for(int j = 0; j < this.quantCities -1; j++) {
+            for(int j = 0; j < this.quantCities; j++) {
                 if(!visited[j] && distance > adjacentMatrix[i][j]) {
                     neighborSelected = j;
                     distance = adjacentMatrix[i][j];
@@ -38,14 +38,17 @@ public class TravelingSalesman {
             visited[neighborSelected] = true;
         }
 
-        this.route[this.quantCities -1] = 0;
+        this.route[this.quantCities] = 0;
     }
 
     public Integer[] buildSwapWay() {
-        Integer[] tmpSolution = this.getRoute();
+        Integer[] tmpSolution = this.getRoute().clone();
         double baseWeight = this.buildWeight(this.getRoute(), false, false);
-        Integer[] bestSolution = new Integer[0];
+        Integer[] bestSolution = this.getRoute().clone();
+
         for(int position = 1; position < this.quantCities; position++) {
+            tmpSolution = this.getRoute().clone();
+//            tmpSolution = bestSolution.clone(); //always getting the best solution
             for(int neighbor = position + 1; neighbor < this.quantCities - 1; neighbor++) {
                 int tmpWay = tmpSolution[position];
                 tmpSolution[position] = tmpSolution[neighbor];
@@ -54,20 +57,18 @@ public class TravelingSalesman {
 
                 if(tmpWeight < baseWeight) {
                     baseWeight = tmpWeight;
-                    bestSolution = tmpSolution;
+                    bestSolution = tmpSolution.clone();
                 }
             }
         }
 
-        if (bestSolution.length > 0) {
-            return bestSolution;
-        }
-        return this.getRoute();
+        return bestSolution;
+
     }
 
     public void printRoute(Integer route[]) {
         StringBuilder result = new StringBuilder();
-        for(int count = 0; count < route.length -1; count++) {
+        for(int count = 0; count < route.length; count++) {
             result.append(route[count]).append(" -> ");
         }
         result = new StringBuilder(result.substring(0, result.length() - 4));
@@ -77,7 +78,7 @@ public class TravelingSalesman {
 
     public Double buildWeight(Integer[] route, boolean printDistance, boolean printWay) {
         Double sumCount= 0.0;
-        for (int count = 0; count < this.quantCities -1; count ++) {
+        for (int count = 0; count < this.quantCities; count ++) {
             sumCount += this.adjacentMatrix[route[count]][route[count + 1]];
         }
 
