@@ -21,5 +21,8 @@ public class Main {
         travelingSalesman.buildWeight(travelingSalesman.getRoute(), true, true);
         Integer[] secondSolution = travelingSalesman.buildSwapWay();
         travelingSalesman.buildWeight(secondSolution, true, true);
+
+        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute();
+        travelingSalesman.buildWeight(aleatorySolution, true, true);
     }
 }

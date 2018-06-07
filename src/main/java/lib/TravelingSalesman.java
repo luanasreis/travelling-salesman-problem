@@ -1,5 +1,5 @@
 package lib;
-
+import java.util.Random;
 import static java.lang.Boolean.FALSE;
 
 public class TravelingSalesman {
@@ -39,6 +39,37 @@ public class TravelingSalesman {
         }
 
         this.route[this.quantCities] = 0;
+    }
+
+    public Integer[] buildAleatoryRoute() {
+        Random gerador = new Random();
+        Integer[] route = this.getRoute().clone();
+        Boolean[] visited = new Boolean[this.quantCities];
+        Neighboor[] neighbor = new Neighboor[this.quantCities-1];
+        for(int i=0; i < this.quantCities; i++ ){
+            visited[i] = false;
+        }
+        route[0] = 0;
+        visited[0] = true;
+
+
+        for(int i = 0; i < this.quantCities; i++) {
+            int posicao = 0;
+            for(int j = 0; j < this.quantCities; j++){
+                if(!visited[j]) {
+                    neighbor[posicao] = new Neighboor(j, adjacentMatrix[i][j]);
+                    posicao++;
+                }
+            }
+            if(posicao==0){ //caso não tenho mais vizinho algum
+                route[i + 1] = 0;
+            }else{
+                int neighboorSelected = gerador.nextInt(this.quantCities)%posicao;
+                route[i+1] = neighbor[neighboorSelected].getIndice();
+                visited[neighbor[neighboorSelected].getIndice()] = true;
+            }
+        }
+        return route;
     }
 
     public Integer[] buildSwapWay() {
