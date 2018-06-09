@@ -3,7 +3,10 @@ import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collections;
 import java.util.Random;
+import java.util.Arrays;
+import java.lang.*;
 import static java.lang.Boolean.FALSE;
 
 public class TravelingSalesman {
@@ -137,6 +140,58 @@ public class TravelingSalesman {
 
         }
         return result;
+    }
+
+
+    public Integer[] buildGRASP(double alfa) {
+        Random gerador = new Random();
+        Integer[] route = Arrays.copyOf(this.getRoute(), this.getRoute().length);
+        Boolean[] visited = new Boolean[this.quantCities];
+        Neighboor[] neighbor = new Neighboor[this.quantCities-1];
+        //Double [] vizinhos = new Double[this.quantCities-1]
+        for(int i=0; i < this.quantCities; i++ ){
+            visited[i] = false;
+        }
+        route[0] = 0;
+        visited[0] = true;
+
+
+        for(int i = 0; i < this.quantCities; i++) {
+            int posicao = 0;
+            int posicao2 = 0;
+            for(int j = 0; j < this.quantCities; j++){
+                if(!visited[j]) {
+                    neighbor[posicao] = new Neighboor(j, adjacentMatrix[i][j]);
+                    posicao++;
+                }
+            }
+
+            Arrays.sort(neighbor);
+            double menorDistancia = neighbor[0].getValor();
+            double maiorDistancia = neighbor[neighbor.length-1].getValor();
+            double result = (maiorDistancia - menorDistancia)*alfa;
+
+           // System.out.println(menorDistancia);
+           // System.out.println(maiorDistancia);
+            System.out.println(neighbor[i].getValor());
+
+            for(int j = 0; j < neighbor.length-1; j++) {
+                if (neighbor[j].getValor() < result) {
+                    neighbor[posicao2] = new Neighboor(j, adjacentMatrix[i][j]);
+                    posicao2++;
+                }
+            }
+
+            if(posicao2==0){ //caso não tenho mais vizinho algum
+                route[i + 1] = 0;
+            }else{
+                int neighboorSelected = gerador.nextInt(this.quantCities)%posicao2;
+                route[i+1] = neighbor[neighboorSelected].getIndice();
+                visited[neighbor[neighboorSelected].getIndice()] = true;
+            }
+        }
+
+        return route;
     }
 
     public void printRoute(Integer route[]) {

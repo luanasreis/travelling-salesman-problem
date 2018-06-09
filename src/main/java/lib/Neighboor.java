@@ -1,12 +1,24 @@
 package lib;
+import java.lang.*;
 
-public class Neighboor {
+public class Neighboor implements Comparable<Neighboor> {
     private int indice;
     private double valor;
 
     public Neighboor(int indice, double valor) {
         this.indice = indice;
         this.valor = valor;
+    }
+
+    @Override
+    public int compareTo(Neighboor outroNeighboor) {
+        if (this.valor > outroNeighboor.getValor()) {
+            return -1;
+        }
+        if (this.valor < outroNeighboor.getValor()) {
+            return 1;
+        }
+        return 0;
     }
 
     public int getIndice() {
