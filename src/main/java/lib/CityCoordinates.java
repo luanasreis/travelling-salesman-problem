@@ -18,21 +18,6 @@ public class CityCoordinates {
         this.visited = false;
     }
 
-//    public CityCoordinates(int CityName, double coordX, double coordY) {
-//        this(CityName, coordX,coordY);
-//    }
-
-//    public void setAdjacent(ArrayList<Adjacent> adj) {
-//        this.adjacent = adj;
-//    }
-//
-//    public Adjacent getAdjacent(int adj) {
-//        return this.adjacent.get(adj);
-//    }
-//
-//    public int getGrau() { //quant de vertices adj tem uma cidade (quantas cidades vizinhas)
-//            return adjacent.size();
-//        }
 
     public int getCityName() {
         return CityName;
@@ -53,22 +38,6 @@ public class CityCoordinates {
     public void setCoordinatesY(int coordY) {
         this.coordinatesY = coordY;
     }
-
-    public CityCoordinates getDad() {
-        return dad;
-    }
-
-    public void setDad(CityCoordinates dad) {
-        this.dad = dad;
-    }
-
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void setVisited(boolean visited) {
-            this.visited = visited;
-        }
 
     public double distance(CityCoordinates nextCityCoordinates) {
         return Math.sqrt(

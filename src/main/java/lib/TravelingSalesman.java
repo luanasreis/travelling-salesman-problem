@@ -1,4 +1,8 @@
 package lib;
+import javax.sound.midi.SysexMessage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import static java.lang.Boolean.FALSE;
 
@@ -15,7 +19,7 @@ public class TravelingSalesman {
         this.buildRoute();
     }
 
-    public void buildRoute() {
+    private void buildRoute() {
         Boolean[] visited = new Boolean[this.quantCities];
 
         for(int i = 0; i < this.quantCities; i++) {
@@ -43,7 +47,7 @@ public class TravelingSalesman {
 
     public Integer[] buildAleatoryRoute() {
         Random gerador = new Random();
-        Integer[] route = this.getRoute().clone();
+        Integer[] route = Arrays.copyOf(this.getRoute(), this.getRoute().length);
         Boolean[] visited = new Boolean[this.quantCities];
         Neighboor[] neighbor = new Neighboor[this.quantCities-1];
         for(int i=0; i < this.quantCities; i++ ){
@@ -73,12 +77,12 @@ public class TravelingSalesman {
     }
 
     public Integer[] buildSwapWay() {
-        Integer[] tmpSolution = this.getRoute().clone();
+        Integer[] tmpSolution = Arrays.copyOf(this.getRoute(), this.getRoute().length);
         double baseWeight = this.buildWeight(this.getRoute(), false, false);
-        Integer[] bestSolution = this.getRoute().clone();
+        Integer[] bestSolution = Arrays.copyOf(this.getRoute(), this.getRoute().length);
 
         for(int position = 1; position < this.quantCities; position++) {
-            tmpSolution = this.getRoute().clone();
+            tmpSolution = Arrays.copyOf(this.getRoute(), this.getRoute().length);
 //            tmpSolution = bestSolution.clone(); //always getting the best solution
             for(int neighbor = position + 1; neighbor < this.quantCities - 1; neighbor++) {
                 int tmpWay = tmpSolution[position];
@@ -88,13 +92,51 @@ public class TravelingSalesman {
 
                 if(tmpWeight < baseWeight) {
                     baseWeight = tmpWeight;
-                    bestSolution = tmpSolution.clone();
+                    bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
                 }
             }
         }
-
         return bestSolution;
+    }
 
+    public ArrayList<Integer> buildByCircleWay(boolean printBuild) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        Boolean[] visited = new Boolean[this.quantCities];
+
+        for(int i = 0; i < this.quantCities; i++) {
+            visited[i] = false;
+        }
+        visited[0] = true;
+        visited[this.quantCities -1] = true;
+        result.add(0);
+        result.add(this.quantCities -1);
+
+        for(int i = 0; i < this.quantCities -1; i++) {
+            double distance = Double.MAX_VALUE;
+            int neighborSelected = 0;
+            for(int j = 0; j < this.quantCities; j++) {
+                if(!visited[j] && distance > adjacentMatrix[i][j]) {
+                    Double tmpBaseWeight = Double.MAX_VALUE;
+                    ArrayList<Integer> tmpBaseRoute = new ArrayList<>();
+                    for(int testRoute = 0; testRoute < result.size(); testRoute++){
+                        ArrayList<Integer> tmpRoute = this.appendNode(result, testRoute, j);
+                        Double tmpWeight = this.buildWeight(tmpRoute, false, false);
+                        if(tmpWeight < tmpBaseWeight) {
+                            tmpBaseWeight = tmpWeight;
+                            tmpBaseRoute = new ArrayList<>(tmpRoute);
+                        }
+                    }
+                    neighborSelected = j;
+                    distance = adjacentMatrix[i][j];
+                    result = new ArrayList<>(tmpBaseRoute);
+                    this.buildWeight(result, printBuild, printBuild);
+                    this.route[i + 1] = neighborSelected;
+                    visited[neighborSelected] = true;
+                }
+            }
+
+        }
+        return result;
     }
 
     public void printRoute(Integer route[]) {
@@ -107,14 +149,26 @@ public class TravelingSalesman {
         System.out.println(result);
     }
 
+    public void printRoute(String algorithmName, ArrayList<Integer> route, boolean printDistance, boolean printWay) {
+        System.out.println(algorithmName);
+        this.buildWeight(route, printDistance, printWay);
+        System.out.println("--------------------------------------");
+    }
+
+    public void printRoute(String algorithmName, Integer[] route, boolean printDistance, boolean printWay) {
+        System.out.println(algorithmName);
+        this.buildWeight(route, printDistance, printWay);
+        System.out.println("--------------------------------------");
+    }
+
     public Double buildWeight(Integer[] route, boolean printDistance, boolean printWay) {
         Double sumCount= 0.0;
-        for (int count = 0; count < this.quantCities; count ++) {
+        for (int count = 0; count < route.length -1; count ++) {
             sumCount += this.adjacentMatrix[route[count]][route[count + 1]];
         }
 
         if (printDistance) {
-            System.out.println("Distântia total: "  + sumCount);
+            System.out.println("Distância total: "  + sumCount);
         }
 
         if(printWay) {
@@ -122,6 +176,43 @@ public class TravelingSalesman {
         }
 
         return sumCount;
+    }
+
+    public Double buildWeight(ArrayList<Integer> route, boolean printDistance, boolean printWay) {
+        double weight = 0.0;
+        int roundTrip;
+        for(int count = 0; count < route.size(); count++) {
+            if((count+1) == route.size()) {
+                roundTrip = count -1;
+            } else {
+                roundTrip = count+1;
+            }
+            weight += this.adjacentMatrix[route.get(count)][route.get(roundTrip)];
+        }
+        if(printDistance){
+            System.out.println("Distância Total: " + weight);
+        }
+        if(printWay) {
+            StringBuilder result = new StringBuilder();
+            for(int count = 0; count < route.size(); count++) {
+                result.append(route.get(count)).append(" -> ");
+            }
+            result.append(route.get(0));
+            System.out.println(result);
+        }
+        return weight;
+    }
+
+    private ArrayList<Integer> appendNode(ArrayList<Integer> route, int position, Integer node) {
+        ArrayList<Integer> tmpRoute = new ArrayList<>(route);
+        if(position == 0){
+            position += 1;
+        }
+        if( position == route.size()) {
+            position -= 1;
+        }
+        tmpRoute.add(position, node);
+        return tmpRoute;
     }
 
     public Double buildWeight(boolean printDistance) {

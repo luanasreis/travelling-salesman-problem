@@ -17,10 +17,6 @@ public class City {
         this.adjacent = new ArrayList<City>();
     }
 
-//    public CityCoordinates(int CityName, double coordX, double coordY) {
-//        this(CityName, coordX,coordY);
-//    }
-
     public void setAdjacent(ArrayList<City> adj) {
         this.adjacent = adj;
     }
