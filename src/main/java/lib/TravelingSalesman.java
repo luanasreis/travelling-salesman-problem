@@ -147,7 +147,13 @@ public class TravelingSalesman {
         Random gerador = new Random();
         Integer[] route = Arrays.copyOf(this.getRoute(), this.getRoute().length);
         Boolean[] visited = new Boolean[this.quantCities];
-        Neighboor[] neighbor = new Neighboor[this.quantCities-1];
+        ArrayList<Neighboor> LC = new ArrayList<>();
+        ArrayList<Neighboor> LCR = new ArrayList<>();
+        double menorDistancia;
+        double maiorDistancia;
+        double filter;
+        int selectedIndice = 0;
+
         //Double [] vizinhos = new Double[this.quantCities-1]
         for(int i=0; i < this.quantCities; i++ ){
             visited[i] = false;
@@ -158,36 +164,36 @@ public class TravelingSalesman {
 
         for(int i = 0; i < this.quantCities; i++) {
             int posicao = 0;
-            int posicao2 = 0;
+            LC.clear();
             for(int j = 0; j < this.quantCities; j++){
                 if(!visited[j]) {
-                    neighbor[posicao] = new Neighboor(j, adjacentMatrix[i][j]);
+                    LC.add(new Neighboor(j, adjacentMatrix[i][j]));
                     posicao++;
                 }
             }
 
-            Arrays.sort(neighbor);
-            double menorDistancia = neighbor[0].getValor();
-            double maiorDistancia = neighbor[neighbor.length-1].getValor();
-            double result = (maiorDistancia - menorDistancia)*alfa;
 
-           // System.out.println(menorDistancia);
-           // System.out.println(maiorDistancia);
-            System.out.println(neighbor[i].getValor());
-
-            for(int j = 0; j < neighbor.length-1; j++) {
-                if (neighbor[j].getValor() < result) {
-                    neighbor[posicao2] = new Neighboor(j, adjacentMatrix[i][j]);
-                    posicao2++;
-                }
-            }
-
-            if(posicao2==0){ //caso não tenho mais vizinho algum
+            if(posicao==0){ //caso não tenho mais vizinho algum
                 route[i + 1] = 0;
-            }else{
-                int neighboorSelected = gerador.nextInt(this.quantCities)%posicao2;
-                route[i+1] = neighbor[neighboorSelected].getIndice();
-                visited[neighbor[neighboorSelected].getIndice()] = true;
+            } else{
+                Collections.sort(LC);
+                menorDistancia = LC.get(0).getValor();
+                maiorDistancia = LC.get(LC.size()-1).getValor();
+                filter = alfa * (maiorDistancia - menorDistancia);
+
+                for(int count =0 ; count < LC.size(); count++){
+                    if(LC.get(count).getValor() <= filter) {
+                        LCR.add(LC.get(count));
+                    }
+                }
+                if(LCR.size() > 0){
+                    int selectedCandidate = gerador.nextInt(LCR.size());
+                    selectedIndice = LCR.get(selectedCandidate).getIndice();
+                    route[i+1] = selectedIndice;
+                    visited[selectedIndice] = true;
+                    LCR.clear();
+                }
+
             }
         }
 

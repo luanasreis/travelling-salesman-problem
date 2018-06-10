@@ -12,10 +12,10 @@ public class Neighboor implements Comparable<Neighboor> {
 
     @Override
     public int compareTo(Neighboor outroNeighboor) {
-        if (this.valor > outroNeighboor.getValor()) {
+        if (this.valor < outroNeighboor.getValor()) {
             return -1;
         }
-        if (this.valor < outroNeighboor.getValor()) {
+        if (this.valor > outroNeighboor.getValor()) {
             return 1;
         }
         return 0;

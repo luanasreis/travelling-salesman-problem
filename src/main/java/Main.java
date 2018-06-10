@@ -24,16 +24,16 @@ public class Main {
 //        System.out.println("--------------------------");
 //        System.out.println("\n");
 
-        Integer[] secondSolution = travelingSalesman.buildSwapWay();
-        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute();
-        ArrayList<Integer> circleWay = travelingSalesman.buildByCircleWay(false);
+//        Integer[] secondSolution = travelingSalesman.buildSwapWay();
+//        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute();
+//        ArrayList<Integer> circleWay = travelingSalesman.buildByCircleWay(false);
 
 //        travelingSalesman.printRoute("Creating route by swap neighbor", secondSolution, false, false);
 //        travelingSalesman.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, false, false);
 //        travelingSalesman.printRoute("Creating route by circle", circleWay, false, false);
 
         Integer[] graspSolution = travelingSalesman.buildGRASP(0.5);
-        travelingSalesman.printRoute("Creating GRASP by circle", graspSolution, true, true);
+        travelingSalesman.printRoute("Creating GRASP", graspSolution, true, true);
 
     }
 
