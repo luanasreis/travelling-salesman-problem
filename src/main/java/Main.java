@@ -1,39 +1,35 @@
 import lib.*;
+import lib.filesHandle.AdjacentReader;
+import lib.filesHandle.CitiesNameReader;
+import lib.utils.RoutesHandler;
 
 import java.util.ArrayList;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // Vai ler o arquivo original e separar em tour e cidades.
-//        FileInputReader fileInputReader = new FileInputReader();
-//        ArrayList<Integer> tour = fileInputReader.getTour();
-//        ArrayList<CityCoordinates> names = fileInputReader.getCities();
-        // This line will write at a file data/adjacent/adjacent.txt an adjacent matrix of data
-//        WriteAdjacentFile createAdjacentFile = new WriteAdjacentFile(names, "");
-        // Vai ler o arquivo de nomes encontrado em data/names
         CitiesNameReader names = new CitiesNameReader();
-        //Vai ler o arquivo de adjacentes encontrado em data/adjacents
         AdjacentReader adjacents = new AdjacentReader(names);
-        ArrayList<City> cities = adjacents.getCities();
+        Integer[] firstSolution;
+
         Double[][] adjacentMatrix = adjacents.createFullAdjacentMatrix(false);
-
+        RoutesHandler routesHandler = new RoutesHandler(adjacentMatrix);
         TravelingSalesman travelingSalesman = new TravelingSalesman(adjacentMatrix);
-//        System.out.println("Travelling Salesman");
-//        travelingSalesman.buildWeight(travelingSalesman.getRoute(), true, true);
-//        System.out.println("--------------------------");
-//        System.out.println("\n");
+        firstSolution = travelingSalesman.buildRoute();
+        Integer[] secondSolution = travelingSalesman.buildSwapWay(firstSolution);
+        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute(firstSolution);
+        ArrayList<Integer> circleWay = travelingSalesman.buildByCircleWay(false, firstSolution);
 
-//        Integer[] secondSolution = travelingSalesman.buildSwapWay();
-//        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute();
-//        ArrayList<Integer> circleWay = travelingSalesman.buildByCircleWay(false);
+        routesHandler.printRoute("First Solution", firstSolution, true, true);
 
-//        travelingSalesman.printRoute("Creating route by swap neighbor", secondSolution, false, false);
-//        travelingSalesman.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, false, false);
-//        travelingSalesman.printRoute("Creating route by circle", circleWay, false, false);
-
-        Integer[] graspSolution = travelingSalesman.buildGRASP(0.5);
-        travelingSalesman.printRoute("Creating GRASP", graspSolution, true, true);
+        routesHandler.printRoute("Creating route by swap neighbor", secondSolution, true, true);
+        routesHandler.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, true, true);
+        routesHandler.printRoute("Creating route by circle", circleWay, true, true);
+        GRASP grasp = new GRASP(adjacentMatrix);
+        Integer[] routeGrasp = grasp.buildGRASP(0.5, firstSolution);
+        routesHandler.printRoute("Creating route using GRASP", routeGrasp, true, true);
+//        Integer[] graspSolution = travelingSalesman.buildGRASP(0.5);
+//        travelingSalesman.printRoute("Creating GRASP", graspSolution, true, true);
 
     }
 
