@@ -16,18 +16,20 @@ public class Main {
         RoutesHandler routesHandler = new RoutesHandler(adjacentMatrix);
         TravelingSalesman travelingSalesman = new TravelingSalesman(adjacentMatrix);
         firstSolution = travelingSalesman.buildRoute();
-        Integer[] secondSolution = travelingSalesman.buildSwapWay(firstSolution);
-        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute(firstSolution);
-        ArrayList<Integer> circleWay = travelingSalesman.buildByCircleWay(false, firstSolution);
+//        Integer[] secondSolution = travelingSalesman.buildSwapWay(firstSolution);
+//        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute(firstSolution);
+//        ArrayList<Integer> circleWay = travelingSalesman.buildByCircleWay(false, firstSolution);
+        Integer[] insertionSolution = travelingSalesman.buildInsertionSwapWay(firstSolution);
 
-        routesHandler.printRoute("First Solution", firstSolution, true, true);
+//        routesHandler.printRoute("First Solution", firstSolution, true, true);
 
-        routesHandler.printRoute("Creating route by swap neighbor", secondSolution, true, true);
-        routesHandler.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, true, true);
-        routesHandler.printRoute("Creating route by circle", circleWay, true, true);
+//        routesHandler.printRoute("Creating route by swap neighbor", secondSolution, true, true);
+//        routesHandler.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, true, true);
+//        routesHandler.printRoute("Creating route by circle", circleWay, true, true);
+        routesHandler.printRoute("Creating route inserting fix value", insertionSolution, true, true);
         GRASP grasp = new GRASP(adjacentMatrix);
         Integer[] routeGrasp = grasp.buildGRASP(0.5, firstSolution);
-        routesHandler.printRoute("Creating route using GRASP", routeGrasp, true, true);
+//        routesHandler.printRoute("Creating route using GRASP", routeGrasp, true, true);
 //        Integer[] graspSolution = travelingSalesman.buildGRASP(0.5);
 //        travelingSalesman.printRoute("Creating GRASP", graspSolution, true, true);
 
