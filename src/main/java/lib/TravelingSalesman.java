@@ -78,63 +78,6 @@ public class TravelingSalesman {
         return aleatoryRoute;
     }
 
-    public Integer[] buildSwapWay(Integer[] route) {
-        Integer[] tmpSolution = Arrays.copyOf(route, route.length);
-        double baseWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
-        Integer[] bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-
-        for(int position = 1; position < this.quantCities; position++) {
-            tmpSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-//            tmpSolution = bestSolution.clone(); //always getting the best solution
-            for(int neighbor = position + 1; neighbor < this.quantCities - 1; neighbor++) {
-                int tmpWay = tmpSolution[position];
-                tmpSolution[position] = tmpSolution[neighbor];
-                tmpSolution[neighbor] = tmpWay;
-                double tmpWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
-
-                if(tmpWeight < baseWeight) {
-                    baseWeight = tmpWeight;
-                    bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-                }
-            }
-        }
-        return bestSolution;
-    }
-
-    public Integer[] buildInsertionSwapWay(Integer[] route, boolean printWay) {
-        Integer[] tmpSolution = Arrays.copyOf(route, route.length);
-        double baseWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
-        Integer[] bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-        Random gerador = new Random();
-
-        int insert = gerador.nextInt(route.length -1);
-
-        insert = insert == 0 ? 1 : insert;
-
-        if(printWay) {
-            System.out.println("Insertion value: " + insert);
-        }
-
-        for(int position = 1; position < route.length -1 ; position++) {
-            tmpSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-            for(int neighbor = position + 1; neighbor < route.length - 1; neighbor++) {
-                if(neighbor == insert) {
-                    ++neighbor;
-                }
-                int swapPosition = tmpSolution[insert];
-                tmpSolution[insert] = tmpSolution[neighbor];
-                tmpSolution[neighbor] = swapPosition;
-                double tmpWeight = this.routesHandler.buildWeight(tmpSolution, false, printWay);
-
-                if(tmpWeight < baseWeight) {
-                    baseWeight = tmpWeight;
-                    bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-                }
-            }
-        }
-        return bestSolution;
-    }
-
     public ArrayList<Integer> buildByCircleWay(boolean printBuild, Integer[] route) {
         ArrayList<Integer> circleWay = new ArrayList<Integer>();
         Integer[] localRoute = Arrays.copyOf(route, route.length);
