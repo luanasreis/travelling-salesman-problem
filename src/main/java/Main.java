@@ -26,7 +26,7 @@ public class Main {
         routesHandler.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, true, true);
         routesHandler.printRoute("Creating route by circle", circleWay, true, true);
         GRASP grasp = new GRASP(adjacentMatrix);
-        Integer[] routeGrasp = grasp.buildGRASP(0.5, firstSolution);
+        Integer[] routeGrasp = grasp.buildGRASP(0.7, firstSolution);
         routesHandler.printRoute("Creating route using GRASP", routeGrasp, true, true);
 //        Integer[] graspSolution = travelingSalesman.buildGRASP(0.5);
 //        travelingSalesman.printRoute("Creating GRASP", graspSolution, true, true);

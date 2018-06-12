@@ -32,40 +32,40 @@ public class GRASP {
         route[0] = 0;
         visited[0] = true;
 
-
-        for(int i = 0; i < numberOfCities; i++) {
-            int posicao = 0;
-            LC.clear();
+        int i = 0;
+        while(true) {
+            LC = new ArrayList<>();
             for(int j = 0; j < numberOfCities; j++){
                 if(!visited[j]) {
                     LC.add(new Neighboor(j, adjacentMatrix[cidadeAtual][j]));
-                    posicao++;
                 }
             }
 
-
-            if(posicao==0){ //caso não tenho mais vizinho algum
+            if(i+1 == route.length){ //caso não tenho mais vizinho algum
                 route[i + 1] = 0;
+                break;
             } else{
                 Collections.sort(LC);
                 menorDistancia = LC.get(0).getValor();
                 maiorDistancia = LC.get(LC.size()-1).getValor();
                 filter = alfa * (maiorDistancia - menorDistancia);
-
-                for(int count =0 ; count < LC.size()-1; count++){
+                LCR = new ArrayList<>();
+                System.out.println(filter);
+                for(int count =0 ; count < LC.size(); count++){
                     if(LC.get(count).getValor() <= filter) {
+                        System.out.println(LC.get(count).getValor());
                         LCR.add(LC.get(count));
                     }
                 }
-                if(LCR.size() > 0){
+
+                if(!LCR.isEmpty()) {
                     int selectedCandidate = gerador.nextInt(LCR.size());
+                    System.out.println(selectedCandidate);
                     selectedIndice = LCR.get(selectedCandidate).getIndice();
-                    route[i+1] = selectedIndice;
+                    route[i + 1] = selectedIndice;
                     cidadeAtual = selectedIndice;
                     visited[selectedIndice] = true;
-                    LCR.clear();
                 }
-
             }
         }
 
