@@ -29,6 +29,7 @@ public class GRASP {
         for(int i=0; i < numberOfCities; i++ ){
             visited[i] = false;
         }
+
         route[0] = 0;
         visited[0] = true;
 

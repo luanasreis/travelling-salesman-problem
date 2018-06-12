@@ -78,29 +78,6 @@ public class TravelingSalesman {
         return aleatoryRoute;
     }
 
-    public Integer[] buildSwapWay(Integer[] route) {
-        Integer[] tmpSolution = Arrays.copyOf(route, route.length);
-        double baseWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
-        Integer[] bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-
-        for(int position = 1; position < this.quantCities; position++) {
-            tmpSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-//            tmpSolution = bestSolution.clone(); //always getting the best solution
-            for(int neighbor = position + 1; neighbor < this.quantCities - 1; neighbor++) {
-                int tmpWay = tmpSolution[position];
-                tmpSolution[position] = tmpSolution[neighbor];
-                tmpSolution[neighbor] = tmpWay;
-                double tmpWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
-
-                if(tmpWeight < baseWeight) {
-                    baseWeight = tmpWeight;
-                    bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
-                }
-            }
-        }
-        return bestSolution;
-    }
-
     public ArrayList<Integer> buildByCircleWay(boolean printBuild, Integer[] route) {
         ArrayList<Integer> circleWay = new ArrayList<Integer>();
         Integer[] localRoute = Arrays.copyOf(route, route.length);
@@ -117,7 +94,8 @@ public class TravelingSalesman {
 
         for(int i = 0; i < this.quantCities -1; i++) {
             double distance = Double.MAX_VALUE;
-            int neighborSelected = 0;
+            int neighborSelected;
+
             for(int j = 0; j < this.quantCities; j++) {
                 if(!visited[j] && distance > adjacentMatrix[i][j]) {
                     Double tmpBaseWeight = Double.MAX_VALUE;
