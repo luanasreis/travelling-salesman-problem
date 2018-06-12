@@ -1,5 +1,7 @@
 package lib;
 import lib.utils.RoutesHandler;
+import lib.utils.TimeHandler;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -10,14 +12,17 @@ public class TravelingSalesman {
     private Integer[] route;
     private Double[][] adjacentMatrix;
     private RoutesHandler routesHandler;
+    private TimeHandler timeHandler;
 
     public TravelingSalesman(Double[][] adjacentMatrix) {
         this.adjacentMatrix = Arrays.copyOf(adjacentMatrix, adjacentMatrix.length);
         this.quantCities = adjacentMatrix.length;
         this.routesHandler = new RoutesHandler(this.adjacentMatrix);
+        timeHandler = new TimeHandler();
     }
 
     public Integer[] buildRoute() {
+        timeHandler.startTime();
         Boolean[] visited = new Boolean[this.quantCities];
         Integer[] route = new Integer[this.quantCities + 1];
 
@@ -43,11 +48,13 @@ public class TravelingSalesman {
         }
 
         route[this.quantCities] = 0;
+        timeHandler.stopTime();
         return route;
 
     }
 
     public Integer[] buildAleatoryRoute(Integer[] route) {
+        timeHandler.startTime();
         Random gerador = new Random();
         Integer[] aleatoryRoute = Arrays.copyOf(route, route.length);
         Boolean[] visited = new Boolean[this.quantCities];
@@ -75,10 +82,13 @@ public class TravelingSalesman {
                 visited[neighbor[neighboorSelected].getIndice()] = true;
             }
         }
+        timeHandler.stopTime();
         return aleatoryRoute;
+
     }
 
     public ArrayList<Integer> buildByCircleWay(boolean printBuild, Integer[] route) {
+        timeHandler.startTime();
         ArrayList<Integer> circleWay = new ArrayList<Integer>();
         Integer[] localRoute = Arrays.copyOf(route, route.length);
 
@@ -118,8 +128,14 @@ public class TravelingSalesman {
             }
 
         }
+        timeHandler.stopTime();
         return circleWay;
+
     }
 
-
+    public TimeHandler getTime() {
+        return this.timeHandler;
+    }
 }
+
+

@@ -40,6 +40,37 @@ public class Main {
         graspResults.showBestResult();
         graspResults.showMediaTime();
 
+        //NEAR NEIGHBOR
+        TravelingSalesman routes = new TravelingSalesman(adjacentMatrix);
+
+        ResultsHandler buildRouteResults = new ResultsHandler("BUILD ROUTE RESULTS", adjacentMatrix);
+        for(int count = solutionsTime; count > 0; count--){
+            buildRouteResults.addAlgorithmResult(routes.buildRoute());
+            buildRouteResults.addTime(routes.getTime().getLastTime());
+        }
+
+        buildRouteResults.showBestResult();
+        buildRouteResults.showMediaTime();
+
+        // ALEATORY NEIGHBOR
+        ResultsHandler buildAleatoryRouteResults = new ResultsHandler("BUILD ALEATORY ROUTE RESULTS", adjacentMatrix);
+        for(int count = solutionsTime; count > 0; count--){
+            buildAleatoryRouteResults.addAlgorithmResult(routes.buildAleatoryRoute(firstSolution)); ///FIRSTSOLUTION MESMO??
+            buildAleatoryRouteResults.addTime(routes.getTime().getLastTime());
+        }
+
+        buildAleatoryRouteResults.showBestResult();
+        buildAleatoryRouteResults.showMediaTime();
+
+        // CIRCLE NEIGHBOR
+     //   ResultsHandler buildByCircleWayRouteResults = new ResultsHandler("BUILD BY CIRCLE WAY ROUTE RESULTS", adjacentMatrix);
+     //   for(int count = solutionsTime; count > 0; count--){
+     //       buildByCircleWayRouteResults.addAlgorithmResult(routes.buildByCircleWay());
+     //       buildByCircleWayRouteResults.addTime(routes.getTime().getLastTime());
+     //   }
+
+    //   buildByCircleWayRouteResults.showBestResult();
+     //   buildByCircleWayRouteResults.showMediaTime();
 
 //        routesHandler.printRoute("Creating route using GRASP", routeGrasp, true, true);
 
