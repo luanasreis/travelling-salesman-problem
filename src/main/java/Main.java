@@ -21,7 +21,18 @@ public class Main {
         VND vnd = new VND(adjacentMatrix);
         firstSolution = travelingSalesman.buildRoute();
         int solutionsTime = 10;
+
+        Integer[] aleatorySolution = travelingSalesman.buildAleatoryRoute(firstSolution);
+        Integer[] circleWay = travelingSalesman.buildByCircleWay(false, firstSolution);
+
+        routesHandler.printRoute("First Solution", firstSolution, true, true);
+       // routesHandler.printRoute("Creating route by swap neighbor", secondSolution, true, true);
+        routesHandler.printRoute("Creating route by choosing aleatory neighbor", aleatorySolution, true, true);
+        routesHandler.printRoute("Creating route by circle", circleWay, true, true);
+
+
         GRASP grasp = new GRASP(adjacentMatrix);
+
 
         ResultsHandler graspResults = new ResultsHandler("GRASP RESULTS", adjacentMatrix);
         for(int count = solutionsTime; count > 0; count--){
