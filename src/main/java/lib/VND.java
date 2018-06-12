@@ -8,15 +8,16 @@ import java.util.Random;
 
 public class VND {
     private RoutesHandler routesHandler;
+    private TimeHandler timeHandler;
     public VND(Double matrix[][]) {
         this.routesHandler = new RoutesHandler(matrix);
-
+        this.timeHandler = new TimeHandler();
     }
 
     public Integer[] buildVND(Integer[] route, boolean showTime) {
         Integer[] tmpSwapRoute = Arrays.copyOf(route, route.length);
-        TimeHandler timeHandler = new TimeHandler();
-        timeHandler.startTime();
+        // TIMING
+        this.timeHandler.startTime();
         Integer[] bestSolution;
         double tmpDistance = 0.0;
         double bestDistance;
@@ -39,11 +40,11 @@ public class VND {
             }
         }
 
-        timeHandler.stopTime();
+
         if(showTime) {
             System.out.println("VND Time: " + timeHandler.getLastTime());
         }
-
+        this.timeHandler.stopTime();
         return bestSolution;
     }
 
@@ -113,5 +114,9 @@ public class VND {
             }
         }
         return Arrays.copyOf(bestSolution, bestSolution.length);
+    }
+
+    public TimeHandler getTime(){
+        return this.timeHandler;
     }
 }

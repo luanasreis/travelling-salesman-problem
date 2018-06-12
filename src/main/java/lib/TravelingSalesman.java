@@ -87,7 +87,7 @@ public class TravelingSalesman {
 
     }
 
-    public ArrayList<Integer> buildByCircleWay(boolean printBuild, Integer[] route) {
+    public Integer[] buildByCircleWay(boolean printBuild, Integer[] route) {
         timeHandler.startTime();
         ArrayList<Integer> circleWay = new ArrayList<Integer>();
         Integer[] localRoute = Arrays.copyOf(route, route.length);
@@ -128,8 +128,9 @@ public class TravelingSalesman {
             }
 
         }
+        Integer[] result = circleWay.toArray(new Integer[circleWay.size()]);
         timeHandler.stopTime();
-        return circleWay;
+        return result;
 
     }
 
