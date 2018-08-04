@@ -27,15 +27,8 @@ public class ResultsHandler {
      * Mostra o melhor resultado de acordo com o array de resultados.
      */
     public void showBestResult() {
-        double bestResult = Double.MAX_VALUE;
-        double tmpResult;
         StringBuilder result = new StringBuilder();
-        for(Integer[] route : this.routes) {
-            tmpResult = this.routesHandler.buildWeight(route,false, false);
-            if(tmpResult < bestResult) {
-                bestResult = tmpResult;
-            }
-        }
+        double bestResult = this.getBestResult();
         result.append(this.algorithmName).append(", melhor resultado: ").append(bestResult);
         System.out.println(result);
     }
@@ -54,6 +47,24 @@ public class ResultsHandler {
 
     public void setTimesHandler(TimeHandler timesHandler) {
         this.timesHandler = timesHandler;
+    }
+
+    public double getBestResult() {
+        double bestResult = Double.MAX_VALUE;
+        double tmpResult;
+
+        for(Integer[] route : this.routes) {
+            tmpResult = this.routesHandler.buildWeight(route,false, false);
+            if(tmpResult < bestResult) {
+                bestResult = tmpResult;
+            }
+        }
+        return bestResult;
+    }
+
+    public long getMediaTime() {
+        return this.timesHandler.getMediaOfTimes();
+
     }
 
 

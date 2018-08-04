@@ -58,16 +58,24 @@ public class TimeHandler {
      * @return string com a média de tempos.
      */
     public String generateMediaOfTimes(String name) {
-        long result = 0;
         StringBuilder string = new StringBuilder();
+        long result = this.getMediaOfTimes();
+
+
+        string.append("A média de tempo do algoritmo ");
+        string.append(name + ": ");
+        result = result/times.size();
+        string.append(" ").append(result);
+
+        return string.toString();
+    }
+
+    public long getMediaOfTimes() {
+        long result = 0;
         for(long time : times) {
             result += time;
         }
 
-        string.append("A média de tempo do algoritmo ").append(name);
-        result = result/times.size();
-        string.append(" ").append(result);
-
-        return "Média de tempo:" + result;
+        return result;
     }
 }

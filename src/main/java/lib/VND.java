@@ -9,9 +9,13 @@ import java.util.Random;
 public class VND {
     private RoutesHandler routesHandler;
     private TimeHandler timeHandler;
+    private TimeHandler timeHandlerSwap;
+    private TimeHandler timeHandlerInsertion;
     public VND(Double matrix[][]) {
         this.routesHandler = new RoutesHandler(matrix);
         this.timeHandler = new TimeHandler();
+        this.timeHandlerSwap = new TimeHandler();
+        this.timeHandlerInsertion = new TimeHandler();
     }
 
     public Integer[] buildVND(Integer[] route, boolean showTime) {
@@ -27,10 +31,15 @@ public class VND {
         int test = 0;
 
         while(true){
-            bestSolution = this.findBestSolution(tmpSwapRoute, tmpDistance);
-            bestDistance = this.routesHandler.buildWeight(bestSolution, false, false);
-            tmpSwapRoute = this.buildInsertionSwapWay(bestSolution, false);
+            tmpSwapRoute = this.findBestSolutionInsertion(tmpSwapRoute, tmpDistance);
             tmpDistance = this.routesHandler.buildWeight(tmpSwapRoute, false, false);
+            bestSolution = this.buildSwapWay(tmpSwapRoute);
+            bestDistance = this.routesHandler.buildWeight(bestSolution, false, false);
+
+//            bestSolution = this.findBestSolution(tmpSwapRoute, tmpDistance);
+//            bestDistance = this.routesHandler.buildWeight(bestSolution, false, false);
+//            tmpSwapRoute = this.buildInsertionSwapWay(tmpSwapRoute, false);
+//            tmpDistance = this.routesHandler.buildWeight(tmpSwapRoute, false, false);
 
             if(tmpDistance < bestDistance) {
                 bestSolution = Arrays.copyOf(tmpSwapRoute, tmpSwapRoute.length);
@@ -59,7 +68,19 @@ public class VND {
         return Arrays.copyOf(tmpSwapRoute, tmpSwapRoute.length);
     }
 
+    private Integer[] findBestSolutionInsertion(Integer[] route, double bestDistance) {
+        Integer[] tmpSwapRoute = Arrays.copyOf(route, route.length);
+        double tmpDistance = Double.MAX_VALUE;
+        while(tmpDistance < bestDistance) {
+            tmpSwapRoute = this.buildInsertionSwapWay(tmpSwapRoute, false);
+            tmpDistance = this.routesHandler.buildWeight(tmpSwapRoute, false, false);
+        }
+
+        return Arrays.copyOf(tmpSwapRoute, tmpSwapRoute.length);
+    }
+
     public Integer[] buildSwapWay(Integer[] route) {
+        timeHandlerSwap.startTime();
         Integer[] tmpSolution = Arrays.copyOf(route, route.length);
         double baseWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
         Integer[] bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
@@ -79,10 +100,12 @@ public class VND {
                 }
             }
         }
+        timeHandlerSwap.stopTime();
         return Arrays.copyOf(bestSolution, bestSolution.length);
     }
 
     public Integer[] buildInsertionSwapWay(Integer[] route, boolean printWay) {
+        this.timeHandlerInsertion.startTime();
         Integer[] tmpSolution = Arrays.copyOf(route, route.length);
         double baseWeight = this.routesHandler.buildWeight(tmpSolution, false, false);
         Integer[] bestSolution = Arrays.copyOf(tmpSolution, tmpSolution.length);
@@ -113,10 +136,24 @@ public class VND {
                 }
             }
         }
+        this.timeHandlerInsertion.stopTime();
         return Arrays.copyOf(bestSolution, bestSolution.length);
     }
 
     public TimeHandler getTime(){
         return this.timeHandler;
     }
+    public TimeHandler getInsertionSwapTime(){
+        return this.timeHandlerInsertion;
+    }
+    public TimeHandler getSwapTime(){
+        return this.timeHandlerSwap;
+    }
 }
+
+
+
+//            bestSolution = this.findBestSolution(tmpSwapRoute, tmpDistance);
+//            bestDistance = this.routesHandler.buildWeight(bestSolution, false, false);
+//            tmpSwapRoute = this.buildInsertionSwapWay(tmpSwapRoute, false);
+//            tmpDistance = this.routesHandler.buildWeight(tmpSwapRoute, false, false);
